@@ -55,7 +55,8 @@ public class EnergyAttack extends AbstractEffect
 	public boolean calcSuccess(BuffInfo info)
 	{
 		// TODO: Verify this on retail
-		return !Formulas.calcPhysicalSkillEvasion(info.getEffector(), info.getEffected(), info.getSkill());
+		return !Formulas.calcPhysicalSkillEvasion(info.getEffector(), info.getEffected(), info.getSkill())
+			&& !Formulas.calcHitMiss(info.getEffector(), info.getEffected(), info.getSkill());
 	}
 	
 	@Override

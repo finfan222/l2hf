@@ -41,7 +41,9 @@ public class FatalBlow extends AbstractEffect
 	@Override
 	public boolean calcSuccess(BuffInfo info)
 	{
-		return !Formulas.calcPhysicalSkillEvasion(info.getEffector(), info.getEffected(), info.getSkill()) && Formulas.calcBlowSuccess(info.getEffector(), info.getEffected(), info.getSkill());
+		return !Formulas.calcPhysicalSkillEvasion(info.getEffector(), info.getEffected(), info.getSkill())
+			&& !Formulas.calcHitMiss(info.getEffector(), info.getEffected(), info.getSkill())
+			&& Formulas.calcBlowSuccess(info.getEffector(), info.getEffected(), info.getSkill());
 	}
 	
 	@Override
