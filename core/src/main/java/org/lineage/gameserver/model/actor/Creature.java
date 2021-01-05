@@ -1773,7 +1773,7 @@ public abstract class Creature extends WorldObject implements ISkillsHolder, IDe
 			}
 		}
 		
-		if (!skill.isToggle())
+		if (skillTime > 0)
 		{
 			// Send a Server->Client packet MagicSkillUser with target, displayId, level, skillTime, reuseDelay
 			// to the Creature AND to all PlayerInstance in the _KnownPlayers of the Creature
@@ -1846,7 +1846,7 @@ public abstract class Creature extends WorldObject implements ISkillsHolder, IDe
 				
 				// Create a task MagicUseTask to launch the MagicSkill at the end of the casting time (skillTime)
 				// For client animation reasons (party buffs especially) 400 ms before!
-				_skillCast2 = ThreadPool.schedule(mut, skillTime - 400);
+				_skillCast2 = ThreadPool.schedule(mut, skillTime - 200);
 			}
 			else
 			{
@@ -1859,7 +1859,7 @@ public abstract class Creature extends WorldObject implements ISkillsHolder, IDe
 				
 				// Create a task MagicUseTask to launch the MagicSkill at the end of the casting time (skillTime)
 				// For client animation reasons (party buffs especially) 400 ms before!
-				_skillCast = ThreadPool.schedule(mut, skillTime - 400);
+				_skillCast = ThreadPool.schedule(mut, skillTime - 200);
 			}
 		}
 		else
