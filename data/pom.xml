@@ -12,10 +12,13 @@
 	<artifactId>data</artifactId>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<src.dir>game/data/scripts</src.dir>
 	</properties>
+	
+	<build>
+		<sourceDirectory>${src.dir}</sourceDirectory>
+		<finalName>scripts</finalName>
+	</build>
 
 	<dependencies>
 		<dependency>

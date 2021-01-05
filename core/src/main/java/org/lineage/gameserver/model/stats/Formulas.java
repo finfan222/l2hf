@@ -1114,19 +1114,28 @@ public class Formulas
 	 * @param target
 	 * @return {@code true} if hit missed (target evaded), {@code false} otherwise.
 	 */
-	public static boolean calcHitMiss(Creature attacker, Creature target)
+	public static boolean calcHitMiss(Creature attacker, Creature target, Skill skill)
 	{
 		int chance = (80 + (2 * (attacker.getAccuracy() - target.getEvasionRate(attacker)))) * 10;
 		
 		// Get additional bonus from the conditions when you are attacking
 		chance *= HitConditionBonusData.getInstance().getConditionBonus(attacker, target);
-		
+
+		// For skills we have less chance to miss, for spells more less chance to miss
+		if (skill != null) {
+			chance /= skill.isMagic() && skill.isProjectile() ? 3 : 2;
+		}
+
 		chance = Math.max(chance, 200);
 		chance = Math.min(chance, 980);
 		
 		return chance < Rnd.get(1000);
 	}
-	
+
+	public static boolean calcHitMiss(Creature attacker, Creature target) {
+		return calcHitMiss(attacker, target, null);
+	}
+
 	/**
 	 * Returns:<br>
 	 * 0 = shield defense doesn't succeed<br>
