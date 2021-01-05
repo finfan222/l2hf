@@ -41,7 +41,9 @@ public class Backstab extends AbstractEffect
 	@Override
 	public boolean calcSuccess(BuffInfo info)
 	{
-		return !info.getEffector().isInFrontOf(info.getEffected()) && !Formulas.calcPhysicalSkillEvasion(info.getEffector(), info.getEffected(), info.getSkill()) && Formulas.calcBlowSuccess(info.getEffector(), info.getEffected(), info.getSkill());
+		return !info.getEffector().isInFrontOf(info.getEffected())
+			&& !Formulas.calcPhysicalSkillEvasion(info.getEffector(), info.getEffected(), info.getSkill()) && Formulas.calcBlowSuccess(info.getEffector(), info.getEffected(), info.getSkill())
+			&& !Formulas.calcHitMiss(info.getEffector(), info.getEffected(), info.getSkill());
 	}
 	
 	@Override

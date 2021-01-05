@@ -16,6 +16,7 @@
  */
 package org.lineage.gameserver.model.skills;
 
+import lombok.Getter;
 import org.lineage.Config;
 import org.lineage.commons.util.Rnd;
 import org.lineage.gameserver.data.xml.impl.SkillData;
@@ -200,9 +201,10 @@ public class Skill implements IIdentifiable
 	private final int _channelingSkillId;
 	private final int _channelingTickInitialDelay;
 	private final int _channelingTickInterval;
-	
+
 	private final boolean _isPvPOnly;
-	
+	@Getter private final boolean isProjectile;
+
 	public Skill(StatSet set)
 	{
 		_id = set.getInt("skill_id");
@@ -329,8 +331,9 @@ public class Skill implements IIdentifiable
 		_channelingTickInterval = set.getInt("channelingTickInterval", 2) * 1000;
 		_channelingTickInitialDelay = set.getInt("channelingTickInitialDelay", _channelingTickInterval / 1000) * 1000;
 		_isPvPOnly = set.getBoolean("isPvPOnly", false);
+		isProjectile = set.getBoolean("isProjectile", false);
 	}
-	
+
 	public TraitType getTraitType()
 	{
 		return _traitType;
