@@ -1723,6 +1723,7 @@
 	</skill>
 	<skill id="686" levels="1" name="Divine Rogue Stun Shot">
 		<!-- Shoots arrows that inflict both damage and shock to the enemy in order to cancel target state. Momentarily stuns target. Over-hit is possible. Power 2323. -->
+		<set name="isProjectile" val="true" />
 		<set name="abnormalLevel" val="1" />
 		<set name="abnormalTime" val="9" />
 		<set name="abnormalType" val="STUN" />
@@ -1755,6 +1756,7 @@
 	</skill>
 	<skill id="687" levels="1" name="Divine Rogue Double Shot">
 		<!-- Shoots 2 arrows continuously. Critical hit is possible. Over-hit is possible. Power 6195. -->
+		<set name="isProjectile" val="true" />
 		<set name="baseCritRate" val="15" />
 		<set name="castRange" val="900" />
 		<set name="coolTime" val="1000" />

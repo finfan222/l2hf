@@ -530,6 +530,7 @@
 		<table name="#enchDuel">4955 5040 5125 5210 5295 5380 5465 5551 5636 5721 5806 5891 5976 6061 6147 6232 6317 6402 6487 6572 6657 6742 6828 6913 6998 7083 7168 7253 7338 7424</table>
 		<table name="#enchElementPower">1 3 5 6 8 10 11 13 15 16 18 20 21 23 25 26 28 30 31 33 35 36 38 40 41 43 45 46 48 50</table>
 		<table name="#enchMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 83 83 83 84 84 84 85 85 85</table>
+		<set name="isProjectile" val="true" />
 		<set name="castRange" val="900" />
 		<set name="coolTime" val="1000" />
 		<set name="effectPoint" val="#effectPoints" />
@@ -1384,6 +1385,7 @@
 		<table name="#ench7Duel">7905 8113 8321 8528 8736 8944 9151 9359 9567 9774 9982 10190 10397 10605 10813</table>
 		<table name="#enchelementPower">3 6 10 13 16 20 23 26 30 33 36 40 43 46 50</table>
 		<table name="#enchMagicLvl">81 81 81 82 82 82 83 83 83 84 84 84 85 85 85</table>
+		<set name="isProjectile" val="true" />
 		<set name="baseCritRate" val="15" />
 		<set name="castRange" val="900" />
 		<set name="effectPoint" val="-897" />
@@ -1479,6 +1481,7 @@
 	</skill>
 	<skill id="345" levels="1" name="Sonic Rage">
 		<!-- Attacks the enemy with a devastating burst of energy. Requires a dualsword. Possible up to stage 8. Over-hit and critical hit are possible. -->
+		<set name="isProjectile" val="true" />
 		<set name="baseCritRate" val="10" />
 		<set name="castRange" val="600" />
 		<set name="effectPoint" val="-340" />
@@ -1506,6 +1509,7 @@
 	</skill>
 	<skill id="346" levels="1" name="Raging Force">
 		<!-- Attacks the enemy with a devastating burst of wind energy. Requires a hand-to-hand weapon. Possible up to stage 8. Over-hit and critical hit are possible. -->
+		<set name="isProjectile" val="true" />
 		<set name="baseCritRate" val="10" />
 		<set name="castRange" val="600" />
 		<set name="effectPoint" val="-340" />
@@ -1817,6 +1821,7 @@
 		<table name="#ench1Power">2168 2179 2190 2201 2212 2223 2234 2245 2256 2267 2278 2289 2300 2311 2322</table>
 		<table name="#ench2ActivateRates">42 44 46 48 50 52 54 56 58 60 62 64 66 68 70</table>
 		<table name="#enchMagicLvl">81 81 81 82 82 82 83 83 83 84 84 84 85 85 85</table>
+		<set name="isProjectile" val="true" />
 		<set name="abnormalLevel" val="3" />
 		<set name="abnormalTime" val="60" />
 		<set name="abnormalType" val="SPEED_DOWN" />
@@ -2530,6 +2535,7 @@
 		<table name="#enchDuel">2077 2134 2191 2248 2305 2362 2419 2476 2533 2590 2647 2704 2761 2818 2875</table>
 		<table name="#enchelementPower">3 6 10 13 16 20 23 26 30 33 36 40 43 46 50</table>
 		<table name="#enchMagicLvl">81 81 81 82 82 82 83 83 83 84 84 84 85 85 85</table>
+		<set name="isProjectile" val="true" />
 		<set name="abnormalLevel" val="2" />
 		<set name="abnormalTime" val="30" />
 		<set name="abnormalType" val="SPEED_UP_SPECIAL" />

@@ -1811,6 +1811,7 @@
 	</skill>
 	<skill id="771" levels="1" name="Flame Hawk">
 		<!-- Shoots an arrow filled with the energy of the phoenix to attack the enemies with 8049 Power added to P. Atk. For 10 seconds, inflicts 300 fire damage every second. Requires a bow. Over-hit and Critical are possible. -->
+		<set name="isProjectile" val="true" />
 		<set name="affectLimit" val="5-12" />
 		<set name="affectRange" val="900" />
 		<set name="baseCritRate" val="15" />
@@ -1868,6 +1869,7 @@
 	</skill>
 	<skill id="773" levels="1" name="Ghost Piercing">
 		<!-- Shoots an arrow mixed with the energy of a ghost to attack the enemies in front with 8452 Power added to P. Atk. For 10 seconds, inflicts 300 dark damage every second. Requires a bow. Over-hit and Critical are possible. -->
+		<set name="isProjectile" val="true" />
 		<set name="affectLimit" val="5-12" />
 		<set name="affectRange" val="900" />
 		<set name="baseCritRate" val="15" />
@@ -2332,6 +2334,7 @@
 	</skill>
 	<skill id="790" levels="1" name="Wild Shot">
 		<!-- Fires bolt at random to attack enemies in front with 7475 Power added to P. Atk. Requires a crossbow. Over-hit and Critical are possible. Increases Power upon the consumption of up to 5 souls. -->
+		<set name="isProjectile" val="true" />
 		<set name="affectLimit" val="5-12" />
 		<set name="affectRange" val="900" />
 		<set name="baseCritRate" val="15" />

@@ -305,6 +305,7 @@
 		<table name="#enchDuel">4955 5040 5125 5210 5295 5380 5465 5551 5636 5721 5806 5891 5976 6061 6147 6232 6317 6402 6487 6572 6657 6742 6828 6913 6998 7083 7168 7253 7338 7424</table>
 		<table name="#enchElementPower">1 3 5 6 8 10 11 13 15 16 18 20 21 23 25 26 28 30 31 33 35 36 38 40 41 43 45 46 48 50</table>
 		<table name="#enchMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 83 83 83 84 84 84 85 85 85</table>
+		<set name="isProjectile" val="true" />
 		<set name="baseCritRate" val="25" />
 		<set name="castRange" val="900" />
 		<set name="coolTime" val="1000" />
@@ -356,6 +357,7 @@
 		<table name="#enchDuel">1239 1260 1281 1303 1324 1345 1366 1388 1409 1430 1451 1473 1494 1515 1537 1558 1579 1600 1622 1643 1664 1685 1707 1728 1749 1770 1792 1813 1834 1856</table>
 		<table name="#enchElementPower">1 3 5 6 8 10 11 13 15 16 18 20 21 23 25 26 28 30 31 33 35 36 38 40 41 43 45 46 48 50</table>
 		<table name="#enchMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 83 83 83 84 84 84 85 85 85</table>
+		<set name="isProjectile" val="true" />
 		<set name="affectLimit" val="5-12" />
 		<set name="affectRange" val="150" />
 		<set name="castRange" val="500" />
@@ -408,6 +410,7 @@
 		<table name="#ench2MpConsume">107 105 103 102 100 98 96 94 92 91 89 87 85 83 82 80 78 76 74 72 71 69 67 65 63 62 60 58 56 54</table>
 		<table name="#ench3ActivateRates">51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80</table>
 		<table name="#enchMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 83 83 83 84 84 84 85 85 85</table>
+		<set name="isProjectile" val="true" />
 		<set name="abnormalLevel" val="1" />
 		<set name="abnormalTime" val="20" />
 		<set name="abnormalType" val="BLEEDING" />
@@ -464,6 +467,7 @@
 		<table name="#ench1LethalStrikeRate">50 50 51 51 51 52 52 52 53 53 53 54 54 54 55 55 55 56 56 56 57 57 57 58 58 58 59 59 59 60</table>
 		<table name="#ench2mpConsume">111 109 107 105 103 101 99 97 95 93 91 89 87 85 83 81 79 77 75 73 71 69 67 65 63 61 59 57 55 53</table>
 		<table name="#enchMagicLvl">76 76 76 77 77 77 78 78 78 79 79 79 80 80 80 81 81 81 82 82 82 83 83 83 84 84 84 85 85 85</table>
+		<set name="isProjectile" val="true" />
 		<set name="castRange" val="900" />
 		<set name="effectPoint" val="-897" />
 		<set name="effectRange" val="1400" />
