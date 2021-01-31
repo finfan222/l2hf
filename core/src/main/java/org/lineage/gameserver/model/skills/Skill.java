@@ -241,7 +241,12 @@ public class Skill implements IIdentifiable
 		
 		_abnormalTime = abnormalTime;
 		_isAbnormalInstant = set.getBoolean("abnormalInstant", false);
-		parseAbnormalVisualEffect(set.getString("abnormalVisualEffect", null));
+
+		AbnormalVisualEffect[][] abnormalVisualEffects = parseAbnormalVisualEffect(set.getString("abnormalVisualEffect", null));
+		_abnormalVisualEffectsEvent = abnormalVisualEffects[0];
+		_abnormalVisualEffectsSpecial = abnormalVisualEffects[1];
+		_abnormalVisualEffects = abnormalVisualEffects[2];
+
 		_attribute = set.getString("attribute", "");
 		_stayAfterDeath = set.getBoolean("stayAfterDeath", false);
 		_stayOnSubclassChange = set.getBoolean("stayOnSubclassChange", true);
@@ -1617,7 +1622,7 @@ public class Skill implements IIdentifiable
 	 * @return the parsed extractable skill
 	 * @author Zoey76
 	 */
-	private ExtractableSkill parseExtractableSkill(int skillId, int skillLevel, String values)
+	public static ExtractableSkill parseExtractableSkill(int skillId, int skillLevel, String values)
 	{
 		final String[] prodLists = values.split(";");
 		final List<ExtractableProductItem> products = new ArrayList<>();
@@ -1665,8 +1670,9 @@ public class Skill implements IIdentifiable
 	 * Parses all the abnormal visual effects.
 	 * @param abnormalVisualEffects the abnormal visual effects list
 	 */
-	private void parseAbnormalVisualEffect(String abnormalVisualEffects)
+	public static AbnormalVisualEffect[][] parseAbnormalVisualEffect(String abnormalVisualEffects)
 	{
+		AbnormalVisualEffect[][] vv = new AbnormalVisualEffect[3][0];
 		if (abnormalVisualEffects != null)
 		{
 			final String[] data = abnormalVisualEffects.split(";");
@@ -1708,19 +1714,21 @@ public class Skill implements IIdentifiable
 			
 			if (avesEvent != null)
 			{
-				_abnormalVisualEffectsEvent = avesEvent.toArray(new AbnormalVisualEffect[avesEvent.size()]);
+				vv[0] = avesEvent.toArray(new AbnormalVisualEffect[avesEvent.size()]);
 			}
 			
 			if (avesSpecial != null)
 			{
-				_abnormalVisualEffectsSpecial = avesSpecial.toArray(new AbnormalVisualEffect[avesSpecial.size()]);
+				vv[1] = avesEvent.toArray(new AbnormalVisualEffect[avesEvent.size()]);
 			}
 			
 			if (aves != null)
 			{
-				_abnormalVisualEffects = aves.toArray(new AbnormalVisualEffect[aves.size()]);
+				vv[2] = avesEvent.toArray(new AbnormalVisualEffect[avesEvent.size()]);
 			}
 		}
+
+		return vv;
 	}
 	
 	public ExtractableSkill getExtractableSkill()
