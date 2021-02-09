@@ -16,7 +16,8 @@
  */
 package org.lineage.commons.util;
 
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Mobius
@@ -153,4 +154,12 @@ public class Rnd
 	{
 		return RANDOM.get().nextGaussian();
 	}
+
+	public static <T> T get(Collection<T> values)
+	{
+		List<T> temp = new ArrayList<>(values);
+		int rndIndex = get(temp.size() - 1);
+		return temp.get(rndIndex);
+	}
+
 }

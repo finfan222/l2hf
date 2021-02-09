@@ -75,7 +75,22 @@ public class ListenersContainer
 	{
 		return _listeners.containsKey(type) ? _listeners.get(type) : EmptyQueue.emptyQueue();
 	}
-	
+
+	public AbstractEventListener getListener(EventType type, Object owner)
+	{
+		Queue<AbstractEventListener> abstractEventListeners = _listeners.get(type);
+		if (abstractEventListeners == null || abstractEventListeners.isEmpty()) {
+			return null;
+		}
+
+		for(AbstractEventListener listener : abstractEventListeners) {
+			if(listener.getOwner() == owner) {
+				return listener;
+			}
+		}
+		return null;
+	}
+
 	public void removeListenerIf(EventType type, Predicate<? super AbstractEventListener> filter)
 	{
 		for (AbstractEventListener listener : getListeners(type))

@@ -1,16 +1,16 @@
 /*
  * This file is part of the L2J Mobius project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,6 +21,7 @@ import org.lineage.commons.concurrent.ThreadPool;
 import org.lineage.commons.database.DatabaseFactory;
 import org.lineage.gameserver.data.xml.impl.EnchantItemHPBonusData;
 import org.lineage.gameserver.engines.DocumentEngine;
+import org.lineage.gameserver.enums.ItemGrade;
 import org.lineage.gameserver.enums.ItemLocation;
 import org.lineage.gameserver.instancemanager.IdManager;
 import org.lineage.gameserver.model.World;
@@ -40,9 +41,7 @@ import org.lineage.gameserver.util.GMAudit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,7 +55,7 @@ public class ItemTable
 {
 	private static final Logger LOGGER = Logger.getLogger(ItemTable.class.getName());
 	private static Logger LOGGER_ITEMS = Logger.getLogger("item");
-	
+
 	public static final Map<String, Integer> SLOTS = new HashMap<>();
 	static
 	{
@@ -100,7 +99,10 @@ public class ItemTable
 	private final Map<Integer, EtcItem> _etcItems = new HashMap<>();
 	private final Map<Integer, Armor> _armors = new HashMap<>();
 	private final Map<Integer, Weapon> _weapons = new HashMap<>();
-	
+	private final Map<Integer, EtcItem> _lifeStones = new HashMap<>();
+	private final Map<ItemGrade, List<Weapon>> _weaponGrades = new HashMap<>();
+	private final Map<ItemGrade, List<Armor>> _armorGrades = new HashMap<>();
+
 	/**
 	 * @return a reference to this ItemTable object
 	 */
@@ -108,12 +110,12 @@ public class ItemTable
 	{
 		return SingletonHolder.INSTANCE;
 	}
-	
+
 	protected ItemTable()
 	{
 		load();
 	}
-	
+
 	private void load()
 	{
 		int highest = 0;
@@ -128,15 +130,26 @@ public class ItemTable
 			}
 			if (item instanceof EtcItem)
 			{
+				if (item.getName().contains("Life Stone") && item.getId() != 10035) {
+					_lifeStones.put(item.getId(), (EtcItem) item);
+				}
 				_etcItems.put(item.getId(), (EtcItem) item);
 			}
 			else if (item instanceof Armor)
 			{
 				_armors.put(item.getId(), (Armor) item);
+				if (!_armorGrades.containsKey(item.getItemGrade())) {
+					_armorGrades.put(item.getItemGrade(), new ArrayList<>());
+				}
+				_armorGrades.get(item.getItemGrade()).add((Armor) item);
 			}
 			else
 			{
 				_weapons.put(item.getId(), (Weapon) item);
+				if (!_weaponGrades.containsKey(item.getItemGrade())) {
+					_weaponGrades.put(item.getItemGrade(), new ArrayList<>());
+				}
+				_weaponGrades.get(item.getItemGrade()).add((Weapon) item);
 			}
 		}
 		buildFastLookupTable(highest);
@@ -145,7 +158,7 @@ public class ItemTable
 		LOGGER.info(getClass().getSimpleName() + ": Loaded " + _weapons.size() + " weapon items.");
 		LOGGER.info(getClass().getSimpleName() + ": Loaded " + (_etcItems.size() + _armors.size() + _weapons.size()) + " items in total.");
 	}
-	
+
 	/**
 	 * Builds a variable in which all items are putting in in function of their ID.
 	 * @param size
@@ -155,26 +168,26 @@ public class ItemTable
 		// Create a FastLookUp Table called _allTemplates of size : value of the highest item ID
 		LOGGER.info(getClass().getSimpleName() + ": Highest item id used: " + size);
 		_allTemplates = new Item[size + 1];
-		
+
 		// Insert armor item in Fast Look Up Table
 		for (Armor item : _armors.values())
 		{
 			_allTemplates[item.getId()] = item;
 		}
-		
+
 		// Insert weapon item in Fast Look Up Table
 		for (Weapon item : _weapons.values())
 		{
 			_allTemplates[item.getId()] = item;
 		}
-		
+
 		// Insert etcItem item in Fast Look Up Table
 		for (EtcItem item : _etcItems.values())
 		{
 			_allTemplates[item.getId()] = item;
 		}
 	}
-	
+
 	/**
 	 * Returns the item corresponding to the item ID
 	 * @param id : int designating the item
@@ -188,7 +201,7 @@ public class ItemTable
 		}
 		return _allTemplates[id];
 	}
-	
+
 	/**
 	 * Create the ItemInstance corresponding to the Item Identifier and quantitiy add logs the activity. <b><u>Actions</u>:</b>
 	 * <li>Create and Init the ItemInstance corresponding to the Item Identifier and quantity</li>
@@ -226,16 +239,16 @@ public class ItemTable
 				item.setItemLootShedule(itemLootShedule);
 			}
 		}
-		
+
 		// Add the ItemInstance object to _allObjects of L2world
 		World.getInstance().addObject(item);
-		
+
 		// Set Item parameters
 		if (item.isStackable() && (count > 1))
 		{
 			item.setCount(count);
 		}
-		
+
 		if (Config.LOG_ITEMS && !process.equals("Reset") && (!Config.LOG_ITEMS_SMALL_LOG || (Config.LOG_ITEMS_SMALL_LOG && (item.isEquipable() || (item.getId() == ADENA_ID)))))
 		{
 			if (item.getEnchantLevel() > 0)
@@ -258,7 +271,7 @@ public class ItemTable
 					+ ", " + String.valueOf(reference)); // in case of null
 			}
 		}
-		
+
 		if ((actor != null) && actor.isGM())
 		{
 			String referenceName = "no-reference";
@@ -283,17 +296,17 @@ public class ItemTable
 					, "Object referencing this action is: " + referenceName);
 			}
 		}
-		
+
 		// Notify to scripts
 		EventDispatcher.getInstance().notifyEventAsync(new OnItemCreate(process, item, actor, reference), item.getItem());
 		return item;
 	}
-	
+
 	public ItemInstance createItem(String process, int itemId, int count, PlayerInstance actor)
 	{
 		return createItem(process, itemId, count, actor, null);
 	}
-	
+
 	/**
 	 * Destroys the ItemInstance.<br>
 	 * <br>
@@ -317,10 +330,10 @@ public class ItemTable
 			item.setOwnerId(0);
 			item.setItemLocation(ItemLocation.VOID);
 			item.setLastChange(ItemInstance.REMOVED);
-			
+
 			World.getInstance().removeObject(item);
 			IdManager.getInstance().releaseId(item.getObjectId());
-			
+
 			if (Config.LOG_ITEMS)
 			{
 				if (!Config.LOG_ITEMS_SMALL_LOG || (Config.LOG_ITEMS_SMALL_LOG && (item.isEquipable() || (item.getId() == ADENA_ID))))
@@ -348,7 +361,7 @@ public class ItemTable
 					}
 				}
 			}
-			
+
 			if ((actor != null) && actor.isGM())
 			{
 				String referenceName = "no-reference";
@@ -373,7 +386,7 @@ public class ItemTable
 						, "Object referencing this action is: " + referenceName);
 				}
 			}
-			
+
 			// if it's a pet control item, delete the pet as well
 			if (item.getItem().isPetItem())
 			{
@@ -391,22 +404,22 @@ public class ItemTable
 			}
 		}
 	}
-	
+
 	public void reload()
 	{
 		load();
 		EnchantItemHPBonusData.getInstance().load();
 	}
-	
+
 	protected static class ResetOwner implements Runnable
 	{
 		ItemInstance _item;
-		
+
 		public ResetOwner(ItemInstance item)
 		{
 			_item = item;
 		}
-		
+
 		@Override
 		public void run()
 		{
@@ -414,27 +427,39 @@ public class ItemTable
 			_item.setItemLootShedule(null);
 		}
 	}
-	
+
 	public Set<Integer> getAllArmorsId()
 	{
 		return _armors.keySet();
 	}
-	
+
 	public Set<Integer> getAllWeaponsId()
 	{
 		return _weapons.keySet();
 	}
-	
+
 	public Item[] getAllItems()
 	{
 		return _allTemplates;
 	}
-	
+
 	public int getArraySize()
 	{
 		return _allTemplates.length;
 	}
-	
+
+	public Map<Integer, EtcItem> getLifeStones() {
+		return _lifeStones;
+	}
+
+	public Map<ItemGrade, List<Weapon>> getWeaponGrades() {
+		return _weaponGrades;
+	}
+
+	public Map<ItemGrade, List<Armor>> getArmorGrades() {
+		return _armorGrades;
+	}
+
 	private static class SingletonHolder
 	{
 		protected static final ItemTable INSTANCE = new ItemTable();
